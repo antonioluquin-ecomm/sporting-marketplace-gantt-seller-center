@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seller Center — Gantt · Marketplace Sporting</title>
+<title>Seller Center — Gantt Final · Marketplace Sporting</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
 <style>
@@ -13,15 +13,15 @@
   --w:#fff;--bdr:rgba(255,255,255,.08);--bdr-l:rgba(255,255,255,.045);
   --t1:#e8ede4;--t2:#a1b199;--t3:#6b7b65;
   --danger:#d94040;--warn:#ffb74d;--info:#64b5f6;--teal:#4db6ac;--violet:#ce93d8;
-  --done:#5ea832;--progress:#ffb74d;--planned:#8aa19a;--blocked:#d94040;
   --shadow:0 8px 28px rgba(0,0,0,.32);
-  --tb:56px;--left:470px;--day:7px;--row:42px;
+  --tb:56px;--left:560px;--day:7px;--row:46px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{font-size:15px;scroll-behavior:smooth}
 body{font-family:'Barlow',sans-serif;background:var(--k);color:var(--t1);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 button,input,select{font-family:'Barlow',sans-serif}
 button{cursor:pointer}
+a{color:inherit}
 
 /* TOPBAR */
 .topbar{position:sticky;top:0;z-index:90;height:var(--tb);display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:rgba(13,15,13,.97);border-bottom:1px solid var(--g-brd);backdrop-filter:blur(16px)}
@@ -37,42 +37,42 @@ button{cursor:pointer}
 .badge{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;border:1px solid var(--g-brd);color:var(--g);background:var(--g-dim)}
 
 /* MAIN */
-.main{padding:28px 32px 60px;max-width:1500px;margin:0 auto}
+.main{padding:28px 32px 60px;max-width:1560px;margin:0 auto}
 .hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-bottom:18px}
 .page-title{font-family:'Barlow Condensed',sans-serif;font-size:31px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;color:var(--w);margin-bottom:6px}
-.page-sub{font-size:13.5px;color:var(--t2);line-height:1.6;max-width:780px}
+.page-sub{font-size:13.5px;color:var(--t2);line-height:1.6;max-width:850px}
 .card{background:var(--k3);border:1px solid var(--bdr);border-radius:8px;padding:16px 18px}
 .card h2{font-size:14px;font-weight:700;margin-bottom:8px;color:var(--t1)}
 .card p{font-size:12.5px;line-height:1.55;color:var(--t2);margin-bottom:6px}
 .card small{font-size:11px;color:var(--t3)}
 .src code{color:var(--g);font-family:monospace;font-size:10px;word-break:break-all}
-.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px}
 .stat{background:var(--k3);border:1px solid var(--bdr);border-radius:8px;padding:14px;text-align:center}
 .stat-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:var(--g);line-height:1;margin-bottom:3px}
 .stat-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
 
 /* TOOLBAR */
-.toolbar{position:sticky;top:var(--tb);z-index:80;background:rgba(13,15,13,.95);border:1px solid var(--bdr);border-radius:8px;padding:12px;margin-bottom:16px;backdrop-filter:blur(14px);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.filter-group{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
-.filter-label{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-right:2px}
-.chip{border:1px solid var(--bdr);background:var(--k3);color:var(--t2);border-radius:4px;padding:6px 10px;font-size:11.5px;font-weight:600;cursor:pointer;transition:.15s}
-.chip:hover{color:var(--t1);background:var(--k4)}
-.chip.active{color:var(--g);background:var(--g-dim);border-color:var(--g-brd)}
-.search{margin-left:auto;min-width:260px;background:var(--k3);border:1px solid var(--bdr);border-radius:5px;padding:7px 10px;color:var(--t1);font-size:12px;outline:none}
+.toolbar{position:sticky;top:var(--tb);z-index:80;background:rgba(13,15,13,.95);border:1px solid var(--bdr);border-radius:8px;padding:12px;margin-bottom:16px;backdrop-filter:blur(14px);display:grid;grid-template-columns:1fr auto;gap:10px}
+.filters{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.select-wrap{display:flex;align-items:center;gap:7px}
+.filter-label{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+.filter-select{background:var(--k3);border:1px solid var(--bdr);border-radius:5px;color:var(--t2);font-size:11.5px;font-weight:600;padding:7px 9px;outline:none;min-width:130px}
+.filter-select:focus{border-color:var(--g)}
+.search{min-width:280px;background:var(--k3);border:1px solid var(--bdr);border-radius:5px;padding:7px 10px;color:var(--t1);font-size:12px;outline:none}
 .search:focus{border-color:var(--g)}
+.btn-soft{border:1px solid var(--bdr);background:var(--k3);color:var(--t2);border-radius:5px;padding:7px 11px;font-size:11.5px;font-weight:700}
+.btn-soft:hover{color:var(--g);border-color:var(--g-brd);background:var(--g-dim)}
 
 /* ALERTS */
 .alert{border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;line-height:1.5}
-.alert-warn{background:rgba(255,183,77,.08);border:1px solid rgba(255,183,77,.25);color:var(--warn)}
-.alert-info{background:rgba(100,181,246,.08);border:1px solid rgba(100,181,246,.2);color:var(--info)}
 .alert-ok{background:var(--g-dim);border:1px solid var(--g-brd);color:var(--g)}
 
 /* GANTT */
 .gantt-wrap{background:var(--k2);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
-.gantt-scroll{overflow:auto;max-height:calc(100vh - 320px)}
-.timeline{min-width:1180px;position:relative}
+.gantt-scroll{overflow:auto;max-height:calc(100vh - 340px)}
+.timeline{min-width:1250px;position:relative}
 .gantt-head{position:sticky;top:0;z-index:50;display:grid;background:var(--k4);border-bottom:1px solid var(--bdr)}
-.left-head{position:sticky;left:0;z-index:60;background:var(--k4);border-right:1px solid var(--bdr);display:grid;grid-template-columns:120px 220px 130px;min-height:54px}
+.left-head{position:sticky;left:0;z-index:60;background:var(--k4);border-right:1px solid var(--bdr);display:grid;grid-template-columns:92px 228px 116px 124px;min-height:54px}
 .hcell{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);padding:11px 10px;display:flex;align-items:center;border-right:1px solid var(--bdr-l)}
 .months{display:grid;min-height:54px}
 .month-cell{border-right:1px solid var(--bdr-l);display:flex;align-items:center;justify-content:center;flex-direction:column}
@@ -83,26 +83,34 @@ button{cursor:pointer}
 .module-left{position:sticky;left:0;z-index:35;background:var(--k);border-right:1px solid var(--bdr);padding:8px 12px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g)}
 .module-line{height:30px;background:linear-gradient(90deg,rgba(94,168,50,.08),transparent)}
 .task-row{display:grid;min-height:var(--row);border-top:1px solid var(--bdr-l)}
-.task-left{position:sticky;left:0;z-index:30;background:var(--k3);border-right:1px solid var(--bdr);display:grid;grid-template-columns:120px 220px 130px}
+.task-left{position:sticky;left:0;z-index:30;background:var(--k3);border-right:1px solid var(--bdr);display:grid;grid-template-columns:92px 228px 116px 124px}
 .task-row:hover .task-left,.task-row:hover .task-area{background:var(--k4)}
 .td{padding:8px 10px;border-right:1px solid var(--bdr-l);display:flex;align-items:center;min-width:0}
 .task-id{font-size:10.5px;font-weight:800;color:var(--g);letter-spacing:.04em}
 .task-name{font-size:12.5px;font-weight:650;color:var(--t1);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .task-desc{font-size:10.5px;color:var(--t3);line-height:1.25;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.task-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
 .task-area{position:relative;background:var(--k3);min-height:var(--row);overflow:hidden}
 .grid-lines{position:absolute;inset:0;pointer-events:none}
 .grid-month{position:absolute;top:0;bottom:0;border-right:1px solid var(--bdr-l)}
 .grid-quarter{position:absolute;top:0;bottom:0;background:rgba(255,255,255,.012)}
 .today-line{position:absolute;top:0;bottom:0;width:2px;background:var(--g);box-shadow:0 0 0 1px rgba(94,168,50,.20);z-index:10}
 .today-line::before{content:'HOY';position:absolute;top:2px;left:4px;font-size:8px;font-weight:800;letter-spacing:.08em;color:var(--g)}
-.bar{position:absolute;top:9px;height:24px;border-radius:5px;border:1px solid transparent;display:flex;align-items:center;padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10.5px;font-weight:800;letter-spacing:.03em;box-shadow:0 4px 12px rgba(0,0,0,.20);cursor:pointer;transition:.15s}
+.bar{position:absolute;top:9px;height:28px;border-radius:5px;border:1px solid transparent;display:flex;align-items:center;padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10.5px;font-weight:800;letter-spacing:.03em;box-shadow:0 4px 12px rgba(0,0,0,.20);cursor:pointer;transition:.15s}
 .bar:hover{filter:brightness(1.12);transform:translateY(-1px)}
-.bar-completado{background:rgba(94,168,50,.24);border-color:rgba(94,168,50,.42);color:#9be56d}
-.bar-encurso{background:rgba(255,183,77,.22);border-color:rgba(255,183,77,.42);color:var(--warn)}
-.bar-planificado{background:rgba(100,181,246,.16);border-color:rgba(100,181,246,.30);color:var(--info)}
+.bar-label{position:relative;z-index:2;display:flex;align-items:center;gap:6px;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.bar-progress{position:absolute;left:0;top:0;bottom:0;z-index:1;opacity:.48}
+.bar-completado{background:rgba(94,168,50,.22);border-color:rgba(94,168,50,.42);color:#9be56d}
+.bar-completado .bar-progress{background:rgba(94,168,50,.72)}
+.bar-encurso{background:rgba(255,183,77,.20);border-color:rgba(255,183,77,.42);color:var(--warn)}
+.bar-encurso .bar-progress{background:rgba(255,183,77,.62)}
+.bar-planificado{background:rgba(100,181,246,.14);border-color:rgba(100,181,246,.30);color:var(--info)}
+.bar-planificado .bar-progress{background:rgba(100,181,246,.45)}
 .bar-noiniciado{background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.12);color:var(--t2)}
+.bar-noiniciado .bar-progress{background:rgba(255,255,255,.10)}
 .bar-bloqueado{background:rgba(217,64,64,.22);border-color:rgba(217,64,64,.42);color:#ff8a8a}
+.bar-bloqueado .bar-progress{background:rgba(217,64,64,.58)}
+.note-mark{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(255,255,255,.12);font-size:9px;color:var(--w);flex-shrink:0}
+.link-mark{display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;border-radius:50%;background:rgba(94,168,50,.20);font-size:9px;color:var(--g);flex-shrink:0}
 
 .pill{display:inline-flex;align-items:center;justify-content:center;border-radius:20px;padding:3px 7px;font-size:9px;font-weight:800;letter-spacing:.06em;line-height:1;border:1px solid transparent;text-transform:uppercase;white-space:nowrap}
 .mode-manual{background:rgba(100,181,246,.10);border-color:rgba(100,181,246,.22);color:var(--info)}
@@ -111,6 +119,7 @@ button{cursor:pointer}
 .pr-alta{background:rgba(217,64,64,.10);border-color:rgba(217,64,64,.20);color:#ff8a8a}
 .pr-media{background:rgba(255,183,77,.10);border-color:rgba(255,183,77,.20);color:var(--warn)}
 .pr-baja{background:rgba(255,255,255,.05);border-color:var(--bdr);color:var(--t3)}
+.type{background:rgba(255,255,255,.05);border-color:var(--bdr);color:var(--t2)}
 .st-completado{color:var(--g)}.st-encurso{color:var(--warn)}.st-planificado{color:var(--info)}.st-noiniciado{color:var(--t3)}.st-bloqueado{color:var(--danger)}
 
 .legend{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--bdr);background:var(--k3);font-size:10.5px;color:var(--t3)}
@@ -122,7 +131,7 @@ button{cursor:pointer}
 /* DRAWER */
 .drawer{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:.18s}
 .drawer.open{opacity:1;pointer-events:all}
-.drawer-panel{position:absolute;right:0;top:0;bottom:0;width:390px;max-width:calc(100vw - 30px);background:var(--k3);border-left:1px solid var(--bdr);box-shadow:var(--shadow);transform:translateX(100%);transition:.22s;display:flex;flex-direction:column}
+.drawer-panel{position:absolute;right:0;top:0;bottom:0;width:430px;max-width:calc(100vw - 30px);background:var(--k3);border-left:1px solid var(--bdr);box-shadow:var(--shadow);transform:translateX(100%);transition:.22s;display:flex;flex-direction:column}
 .drawer.open .drawer-panel{transform:none}
 .drawer-head{padding:18px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;gap:12px}
 .drawer-kicker{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:5px}
@@ -131,18 +140,26 @@ button{cursor:pointer}
 .drawer-close:hover{color:var(--w);border-color:var(--g-brd)}
 .drawer-body{padding:18px;overflow:auto}
 .detail-box{background:var(--k4);border:1px solid var(--bdr);border-radius:6px;padding:12px;margin-bottom:10px}
+.detail-box.obs{background:rgba(255,183,77,.07);border-color:rgba(255,183,77,.24)}
 .detail-label{font-size:9px;color:var(--t3);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
-.detail-value{font-size:12.5px;color:var(--t1);line-height:1.45}
+.detail-value{font-size:12.5px;color:var(--t1);line-height:1.45;word-break:break-word}
 .drawer-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.link-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.link-btn{display:flex;align-items:center;justify-content:center;gap:6px;text-decoration:none;border-radius:6px;border:1px solid var(--bdr);background:var(--k4);padding:10px 12px;font-size:12px;font-weight:800;color:var(--t2)}
+.link-btn:hover{border-color:var(--g-brd);color:var(--g);background:var(--g-dim)}
+.link-btn.disabled{opacity:.4;pointer-events:none}
+.progress-box{height:7px;background:var(--k5);border:1px solid var(--bdr);border-radius:5px;overflow:hidden;margin-top:8px}
+.progress-fill{height:100%;background:var(--g);border-radius:5px}
 
 /* RESPONSIVE */
-@media(max-width:900px){
+@media(max-width:1000px){
+  :root{--left:520px}
   .main{padding:20px 14px 40px}
   .hero{grid-template-columns:1fr}
   .stat-grid{grid-template-columns:repeat(2,1fr)}
-  .search{margin-left:0;width:100%;min-width:0}
+  .toolbar{position:relative;top:0;grid-template-columns:1fr}
+  .search{width:100%;min-width:0}
   .tb-right{display:none}
-  .toolbar{position:relative;top:0}
   .gantt-scroll{max-height:none}
 }
 </style>
@@ -165,47 +182,43 @@ button{cursor:pointer}
     <div>
       <div class="page-title">Gantt Seller Center</div>
       <p class="page-sub">
-        Roadmap operativo por tareas, fechas reales y módulos funcionales. La información se consume desde Google Sheets y se organiza por módulo, modalidad, estado, prioridad y responsable.
+        Roadmap operativo por tareas, fechas reales y módulos funcionales. Incluye filtros por responsable, módulo, estado, modalidad, prioridad y tipo; observaciones visibles; avance por tarea; y acceso directo a Jira y GitLab.
       </p>
     </div>
     <div class="card">
-      <h2>Modelo de lectura</h2>
-      <p><strong>1 fila = 1 tarea.</strong> Cada tarea tiene fecha de inicio y fin, permitiendo visualizar duración real.</p>
-      <p><strong>API no es estado:</strong> es modalidad de integración. Los estados miden avance.</p>
+      <h2>Modelo final</h2>
+      <p><strong>1 fila = 1 tarea.</strong> Cada tarea tiene inicio, fin, responsable, avance y links de gestión.</p>
+      <p><strong>Vista ejecutiva + trazabilidad:</strong> el Gantt resume el roadmap y Jira/GitLab conservan el detalle operativo/técnico.</p>
       <p class="src"><small>Fuente:</small><br><code id="sourceUrl"></code></p>
     </div>
   </section>
 
   <section class="stat-grid">
     <div class="stat"><div class="stat-num" id="stTotal">0</div><div class="stat-label">Tareas</div></div>
-    <div class="stat"><div class="stat-num" id="stProgress">0%</div><div class="stat-label">Avance</div></div>
+    <div class="stat"><div class="stat-num" id="stProgress">0%</div><div class="stat-label">Avance prom.</div></div>
     <div class="stat"><div class="stat-num" id="stCurrent">0</div><div class="stat-label">En curso</div></div>
     <div class="stat"><div class="stat-num" id="stBlocked">0</div><div class="stat-label">Bloqueadas</div></div>
     <div class="stat"><div class="stat-num" id="stModules">0</div><div class="stat-label">Módulos</div></div>
+    <div class="stat"><div class="stat-num" id="stNotes">0</div><div class="stat-label">Con obs.</div></div>
   </section>
 
   <div class="alert alert-ok">
-    Estructura optimizada: se eliminó la “capa API transversal”, se separó Stock de Precio y el Gantt ahora usa fechas reales de inicio y fin.
+    Estructura recomendada: agregar al Sheet las columnas <strong>Tipo, % Avance, Link Jira, Link GitLab y Fecha Ultima Actualizacion</strong>. Si todavía no existen, el HTML funciona igual y deja esos campos vacíos.
   </div>
 
   <section class="toolbar">
-    <div class="filter-group">
-      <span class="filter-label">Estado</span>
-      <button class="chip active" data-filter="estado" data-value="Todos">Todos</button>
-      <button class="chip" data-filter="estado" data-value="No iniciado">No iniciado</button>
-      <button class="chip" data-filter="estado" data-value="Planificado">Planificado</button>
-      <button class="chip" data-filter="estado" data-value="En curso">En curso</button>
-      <button class="chip" data-filter="estado" data-value="Bloqueado">Bloqueado</button>
-      <button class="chip" data-filter="estado" data-value="Completado">Completado</button>
+    <div class="filters">
+      <div class="select-wrap"><span class="filter-label">Estado</span><select class="filter-select" id="fEstado"></select></div>
+      <div class="select-wrap"><span class="filter-label">Módulo</span><select class="filter-select" id="fModulo"></select></div>
+      <div class="select-wrap"><span class="filter-label">Responsable</span><select class="filter-select" id="fResponsable"></select></div>
+      <div class="select-wrap"><span class="filter-label">Modalidad</span><select class="filter-select" id="fModalidad"></select></div>
+      <div class="select-wrap"><span class="filter-label">Prioridad</span><select class="filter-select" id="fPrioridad"></select></div>
+      <div class="select-wrap"><span class="filter-label">Tipo</span><select class="filter-select" id="fTipo"></select></div>
     </div>
-    <div class="filter-group">
-      <span class="filter-label">Modalidad</span>
-      <button class="chip active" data-filter="modalidad" data-value="Todos">Todas</button>
-      <button class="chip" data-filter="modalidad" data-value="Manual">Manual</button>
-      <button class="chip" data-filter="modalidad" data-value="Masivo">Masivo</button>
-      <button class="chip" data-filter="modalidad" data-value="API">API</button>
+    <div style="display:flex;gap:8px">
+      <input class="search" id="searchInput" placeholder="Buscar tarea, módulo, responsable, observación...">
+      <button class="btn-soft" onclick="resetFilters()">Reset</button>
     </div>
-    <input class="search" id="searchInput" placeholder="Buscar tarea, módulo, responsable...">
   </section>
 
   <section class="gantt-wrap">
@@ -221,10 +234,9 @@ button{cursor:pointer}
       <span class="lbar bar-encurso"></span>En curso
       <span class="lbar bar-bloqueado"></span>Bloqueado
       <span class="lbar bar-completado"></span>Completado
-      <strong style="margin-left:12px">Modalidades</strong>
-      <span class="pill mode-manual">Manual</span>
-      <span class="pill mode-masivo">Masivo</span>
-      <span class="pill mode-api">API</span>
+      <strong style="margin-left:12px">Indicadores</strong>
+      <span class="note-mark">!</span> Con observación
+      <span class="link-mark">↗</span> Con link Jira/GitLab
     </div>
   </section>
 </main>
@@ -254,7 +266,9 @@ const MODULE_ORDER = [
 const state = {
   data: [],
   filtered: [],
-  filters: { estado:'Todos', modalidad:'Todos' },
+  filters: {
+    estado:'Todos', modulo:'Todos', responsable:'Todos', modalidad:'Todos', prioridad:'Todos', tipo:'Todos'
+  },
   search: '',
   minDate: null,
   maxDate: null,
@@ -269,11 +283,11 @@ function normalize(str){
     .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
     .replace(/\s+/g,' ');
 }
-
-function slug(str){
-  return normalize(str).toLowerCase().replace(/[^a-z0-9]+/g,'');
+function slug(str){ return normalize(str).toLowerCase().replace(/[^a-z0-9]+/g,''); }
+function num(value){
+  const n = Number(String(value || '').replace('%','').replace(',','.'));
+  return isNaN(n) ? 0 : Math.max(0, Math.min(100, n));
 }
-
 function parseDate(value){
   if(!value) return null;
   const s = String(value).trim();
@@ -288,24 +302,15 @@ function parseDate(value){
   const d = new Date(s);
   return isNaN(d) ? null : d;
 }
-
 function fmtDate(d){
   if(!d) return '-';
   return d.toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
 }
-
-function daysBetween(a,b){
-  return Math.round((b - a) / 86400000);
-}
-
-function addDays(d,n){
-  const x = new Date(d);
-  x.setDate(x.getDate()+n);
-  return x;
-}
-
+function daysBetween(a,b){ return Math.round((b - a) / 86400000); }
+function addDays(d,n){ const x = new Date(d); x.setDate(x.getDate()+n); return x; }
 function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
 function endOfMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
+function isUrl(v){ return /^https?:\/\//i.test(String(v || '').trim()); }
 
 function csvParse(text){
   const rows = [];
@@ -333,7 +338,6 @@ function mapRows(rows){
   if(!rows.length) return [];
   const headers = rows[0].map(h => slug(h));
   const idx = (name) => headers.indexOf(slug(name));
-
   const get = (row, name) => {
     const i = idx(name);
     return i >= 0 ? String(row[i] || '').trim() : '';
@@ -342,19 +346,27 @@ function mapRows(rows){
   return rows.slice(1).map(row => {
     const start = parseDate(get(row,'Fecha Inicio'));
     const end = parseDate(get(row,'Fecha Fin'));
+    const estado = get(row,'Estado') || 'No iniciado';
+    const avanceRaw = get(row,'% Avance') || get(row,'Avance');
+    const fallbackAvance = slug(estado)==='completado' ? 100 : slug(estado)==='encurso' ? 40 : slug(estado)==='bloqueado' ? 25 : 0;
     return {
       id:get(row,'ID'),
       modulo:get(row,'Modulo'),
       tarea:get(row,'Tarea'),
       descripcion:get(row,'Descripcion'),
-      modalidad:get(row,'Modalidad'),
-      responsable:get(row,'Responsable'),
-      estado:get(row,'Estado') || 'No iniciado',
-      prioridad:get(row,'Prioridad'),
+      modalidad:get(row,'Modalidad') || 'Manual',
+      responsable:get(row,'Responsable') || 'Sin responsable',
+      estado,
+      prioridad:get(row,'Prioridad') || 'Media',
       inicio:start,
       fin:end,
       dependencia:get(row,'Dependencia'),
-      observaciones:get(row,'Observaciones')
+      observaciones:get(row,'Observaciones'),
+      tipo:get(row,'Tipo') || 'Sin tipo',
+      avance: avanceRaw === '' ? fallbackAvance : num(avanceRaw),
+      linkJira:get(row,'Link Jira'),
+      linkGitlab:get(row,'Link GitLab'),
+      fechaUpdate:parseDate(get(row,'Fecha Ultima Actualizacion')) || null
     };
   }).filter(x => x.id && x.modulo && x.tarea && x.inicio && x.fin);
 }
@@ -362,17 +374,10 @@ function mapRows(rows){
 function computeRange(data){
   const starts = data.map(d=>d.inicio).filter(Boolean);
   const ends = data.map(d=>d.fin).filter(Boolean);
-  if(!starts.length || !ends.length){
-    const now = new Date();
-    state.minDate = new Date(now.getFullYear(), 0, 1);
-    state.maxDate = new Date(now.getFullYear(), 11, 31);
-    return;
-  }
   let min = new Date(Math.min(...starts));
   let max = new Date(Math.max(...ends));
   state.minDate = startOfMonth(min);
   state.maxDate = endOfMonth(max);
-
   state.months = [];
   let cur = new Date(state.minDate);
   while(cur <= state.maxDate){
@@ -391,7 +396,6 @@ function statusClass(status){
   if(s === 'planificado') return 'bar-planificado';
   return 'bar-noiniciado';
 }
-
 function statusTextClass(status){
   const s = slug(status);
   if(s === 'completado') return 'st-completado';
@@ -400,45 +404,82 @@ function statusTextClass(status){
   if(s === 'planificado') return 'st-planificado';
   return 'st-noiniciado';
 }
-
 function modalityClass(mod){
   const s = slug(mod);
   if(s === 'api') return 'mode-api';
   if(s === 'masivo') return 'mode-masivo';
   return 'mode-manual';
 }
-
 function priorityClass(p){
   const s = slug(p);
   if(s === 'alta') return 'pr-alta';
   if(s === 'media') return 'pr-media';
   return 'pr-baja';
 }
+function escapeHtml(str){
+  return String(str ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+function safeAttr(str){ return escapeHtml(str).replace(/`/g,'&#096;'); }
+
+function fillSelect(id, values, labelAll='Todos'){
+  const el = document.getElementById(id);
+  const current = el.value || labelAll;
+  const options = [labelAll, ...Array.from(new Set(values.filter(Boolean))).sort((a,b)=>String(a).localeCompare(String(b),'es'))];
+  el.innerHTML = options.map(v => `<option value="${escapeHtml(v)}">${escapeHtml(v)}</option>`).join('');
+  el.value = options.includes(current) ? current : labelAll;
+}
+
+function setupDynamicFilters(){
+  fillSelect('fEstado', ['No iniciado','Planificado','En curso','Bloqueado','Completado']);
+  fillSelect('fModulo', state.data.map(x=>x.modulo));
+  fillSelect('fResponsable', state.data.map(x=>x.responsable));
+  fillSelect('fModalidad', state.data.map(x=>x.modalidad));
+  fillSelect('fPrioridad', state.data.map(x=>x.prioridad));
+  fillSelect('fTipo', state.data.map(x=>x.tipo));
+  const map = {
+    fEstado:'estado', fModulo:'modulo', fResponsable:'responsable', fModalidad:'modalidad', fPrioridad:'prioridad', fTipo:'tipo'
+  };
+  Object.entries(map).forEach(([id,key]) => {
+    document.getElementById(id).addEventListener('change', e => {
+      state.filters[key] = e.target.value;
+      applyFilters();
+    });
+  });
+}
 
 function applyFilters(){
   const q = slug(state.search);
   state.filtered = state.data.filter(item => {
-    const byEstado = state.filters.estado === 'Todos' || normalize(item.estado) === normalize(state.filters.estado);
-    const byModalidad = state.filters.modalidad === 'Todos' || normalize(item.modalidad) === normalize(state.filters.modalidad);
-    const haystack = slug([item.id,item.modulo,item.tarea,item.descripcion,item.responsable,item.estado,item.modalidad,item.prioridad].join(' '));
-    const bySearch = !q || haystack.includes(q);
-    return byEstado && byModalidad && bySearch;
+    const keys = ['estado','modulo','responsable','modalidad','prioridad','tipo'];
+    const byFilters = keys.every(k => state.filters[k] === 'Todos' || normalize(item[k]) === normalize(state.filters[k]));
+    const haystack = slug([
+      item.id,item.modulo,item.tarea,item.descripcion,item.responsable,item.estado,item.modalidad,item.prioridad,item.tipo,item.observaciones,item.dependencia
+    ].join(' '));
+    return byFilters && (!q || haystack.includes(q));
   });
   render();
+}
+function resetFilters(){
+  Object.keys(state.filters).forEach(k => state.filters[k]='Todos');
+  ['fEstado','fModulo','fResponsable','fModalidad','fPrioridad','fTipo'].forEach(id => document.getElementById(id).value = 'Todos');
+  document.getElementById('searchInput').value = '';
+  state.search = '';
+  applyFilters();
 }
 
 function updateStats(){
   const total = state.data.length;
-  const done = state.data.filter(x => slug(x.estado)==='completado').length;
+  const avg = total ? Math.round(state.data.reduce((a,b)=>a+(b.avance||0),0)/total) : 0;
   const current = state.data.filter(x => slug(x.estado)==='encurso').length;
   const blocked = state.data.filter(x => slug(x.estado)==='bloqueado').length;
   const modules = new Set(state.data.map(x=>x.modulo)).size;
-  const pct = total ? Math.round(done/total*100) : 0;
+  const notes = state.data.filter(x => !!x.observaciones).length;
   document.getElementById('stTotal').textContent = total;
-  document.getElementById('stProgress').textContent = pct + '%';
+  document.getElementById('stProgress').textContent = avg + '%';
   document.getElementById('stCurrent').textContent = current;
   document.getElementById('stBlocked').textContent = blocked;
   document.getElementById('stModules').textContent = modules;
+  document.getElementById('stNotes').textContent = notes;
   document.getElementById('lastUpdate').textContent = 'Actualizado';
 }
 
@@ -450,10 +491,11 @@ function render(){
     return;
   }
 
+  const dayW = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
   const totalDays = Math.max(1, daysBetween(state.minDate, addDays(state.maxDate,1)));
-  const timelineWidth = totalDays * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+  const timelineWidth = totalDays * dayW;
   const monthGrid = state.months.map(m => {
-    const w = (daysBetween(m.start, addDays(m.end,1))) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+    const w = (daysBetween(m.start, addDays(m.end,1))) * dayW;
     return `<div class="month-cell" style="width:${w}px"><div class="month-name">${m.label}</div><div class="month-days">${daysBetween(m.start, addDays(m.end,1))} días</div></div>`;
   }).join('');
 
@@ -462,9 +504,10 @@ function render(){
       <div class="left-head">
         <div class="hcell">ID</div>
         <div class="hcell">Tarea</div>
-        <div class="hcell">Modalidad</div>
+        <div class="hcell">Responsable</div>
+        <div class="hcell">Tipo</div>
       </div>
-      <div class="months" style="grid-template-columns:${state.months.map(m => (daysBetween(m.start, addDays(m.end,1)) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'))) + 'px').join(' ')}">${monthGrid}</div>
+      <div class="months" style="grid-template-columns:${state.months.map(m => (daysBetween(m.start, addDays(m.end,1)) * dayW) + 'px').join(' ')}">${monthGrid}</div>
     </div>
   `;
 
@@ -472,35 +515,38 @@ function render(){
   grouped.forEach(([module, items]) => {
     html += `
       <div class="module-row" style="grid-template-columns:var(--left) ${timelineWidth}px">
-        <div class="module-left">${module}</div>
+        <div class="module-left">${escapeHtml(module)}</div>
         <div class="module-line"></div>
       </div>
     `;
     items.forEach(item => {
-      const left = Math.max(0, daysBetween(state.minDate, item.inicio)) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
-      const width = Math.max(8, (daysBetween(item.inicio, addDays(item.fin,1))) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day')));
+      const left = Math.max(0, daysBetween(state.minDate, item.inicio)) * dayW;
+      const width = Math.max(12, (daysBetween(item.inicio, addDays(item.fin,1))) * dayW);
+      const hasObs = !!item.observaciones;
+      const hasLink = isUrl(item.linkJira) || isUrl(item.linkGitlab);
+      const indicators = `${hasObs ? '<span class="note-mark">!</span>' : ''}${hasLink ? '<span class="link-mark">↗</span>' : ''}`;
       html += `
         <div class="task-row" style="grid-template-columns:var(--left) ${timelineWidth}px">
           <div class="task-left">
             <div class="td"><span class="task-id">${escapeHtml(item.id)}</span></div>
             <div class="td">
               <div style="min-width:0">
-                <div class="task-name" title="${escapeHtml(item.tarea)}">${escapeHtml(item.tarea)}</div>
-                <div class="task-desc" title="${escapeHtml(item.descripcion)}">${escapeHtml(item.descripcion)}</div>
+                <div class="task-name" title="${safeAttr(item.tarea)}">${escapeHtml(item.tarea)}</div>
+                <div class="task-desc" title="${safeAttr(item.descripcion)}">${escapeHtml(item.descripcion)}</div>
               </div>
             </div>
-            <div class="td">
-              <div class="task-meta">
-                <span class="pill ${modalityClass(item.modalidad)}">${escapeHtml(item.modalidad)}</span>
-                <span class="pill ${priorityClass(item.prioridad)}">${escapeHtml(item.prioridad)}</span>
-              </div>
+            <div class="td"><span style="font-size:11.5px;color:var(--t2);font-weight:650">${escapeHtml(item.responsable)}</span></div>
+            <div class="td" style="gap:5px;flex-wrap:wrap">
+              <span class="pill type">${escapeHtml(item.tipo)}</span>
+              <span class="pill ${modalityClass(item.modalidad)}">${escapeHtml(item.modalidad)}</span>
             </div>
           </div>
           <div class="task-area">
-            ${renderGrid(timelineWidth)}
-            ${renderToday(totalDays)}
-            <div class="bar ${statusClass(item.estado)}" style="left:${left}px;width:${width}px" onclick='openDrawer(${JSON.stringify(item.id)})' title="${escapeHtml(item.tarea)} · ${fmtDate(item.inicio)} → ${fmtDate(item.fin)}">
-              ${escapeHtml(item.estado)}
+            ${renderGrid()}
+            ${renderToday()}
+            <div class="bar ${statusClass(item.estado)}" style="left:${left}px;width:${width}px" onclick='openDrawer(${JSON.stringify(item.id)})' title="${safeAttr(item.tarea)} · ${fmtDate(item.inicio)} → ${fmtDate(item.fin)} · ${item.avance}%">
+              <div class="bar-progress" style="width:${item.avance}%"></div>
+              <div class="bar-label">${escapeHtml(item.estado)} · ${item.avance}% ${indicators}</div>
             </div>
           </div>
         </div>
@@ -512,25 +558,24 @@ function render(){
   gantt.innerHTML = html;
 }
 
-function renderGrid(timelineWidth){
+function renderGrid(){
+  const dayW = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
   let out = '<div class="grid-lines">';
   state.months.forEach((m,idx) => {
-    const left = daysBetween(state.minDate, m.start) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
-    const width = daysBetween(m.start, addDays(m.end,1)) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+    const left = daysBetween(state.minDate, m.start) * dayW;
+    const width = daysBetween(m.start, addDays(m.end,1)) * dayW;
     out += `<div class="grid-month" style="left:${left}px;width:${width}px"></div>`;
     if(idx % 3 === 0) out += `<div class="grid-quarter" style="left:${left}px;width:${width*3}px"></div>`;
   });
   out += '</div>';
   return out;
 }
-
-function renderToday(totalDays){
+function renderToday(){
   const today = new Date();
   if(today < state.minDate || today > state.maxDate) return '';
   const left = daysBetween(state.minDate, today) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
   return `<div class="today-line" style="left:${left}px"></div>`;
 }
-
 function groupByModule(data){
   const map = new Map();
   data.forEach(item => {
@@ -544,10 +589,6 @@ function groupByModule(data){
   }).map(([m,items]) => [m, items.sort((a,b)=> a.inicio - b.inicio || a.id.localeCompare(b.id))]);
 }
 
-function escapeHtml(str){
-  return String(str ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
-}
-
 function openDrawer(id){
   const item = state.data.find(x => x.id === id);
   if(!item) return;
@@ -556,42 +597,47 @@ function openDrawer(id){
   document.getElementById('drawerTags').innerHTML = `
     <span class="pill ${modalityClass(item.modalidad)}">${escapeHtml(item.modalidad)}</span>
     <span class="pill ${priorityClass(item.prioridad)}">${escapeHtml(item.prioridad)}</span>
+    <span class="pill type">${escapeHtml(item.tipo)}</span>
     <span class="${statusTextClass(item.estado)}" style="font-size:11px;font-weight:800;text-transform:uppercase">${escapeHtml(item.estado)}</span>
   `;
+  const jiraEnabled = isUrl(item.linkJira);
+  const gitlabEnabled = isUrl(item.linkGitlab);
   document.getElementById('drawerBody').innerHTML = `
+    <div class="link-grid">
+      <a class="link-btn ${jiraEnabled?'':'disabled'}" href="${jiraEnabled ? escapeHtml(item.linkJira) : '#'}" target="_blank" rel="noopener">↗ Ver Jira</a>
+      <a class="link-btn ${gitlabEnabled?'':'disabled'}" href="${gitlabEnabled ? escapeHtml(item.linkGitlab) : '#'}" target="_blank" rel="noopener">↗ Ver GitLab</a>
+    </div>
+    ${progressBox(item.avance)}
     ${box('Descripción', item.descripcion)}
     ${box('Responsable', item.responsable)}
     ${box('Fecha inicio', fmtDate(item.inicio))}
     ${box('Fecha fin', fmtDate(item.fin))}
     ${box('Duración', (daysBetween(item.inicio, addDays(item.fin,1))) + ' días')}
     ${box('Dependencia', item.dependencia || 'Sin dependencia')}
-    ${box('Observaciones', item.observaciones || 'Sin observaciones')}
+    ${box('Última actualización', item.fechaUpdate ? fmtDate(item.fechaUpdate) : 'Sin fecha informada')}
+    ${box('Observaciones', item.observaciones || 'Sin observaciones', 'obs')}
   `;
   document.getElementById('drawer').classList.add('open');
 }
-function box(label,value){ return `<div class="detail-box"><div class="detail-label">${label}</div><div class="detail-value">${escapeHtml(value)}</div></div>`; }
+function progressBox(value){
+  return `<div class="detail-box"><div class="detail-label">% Avance</div><div class="detail-value">${value}%<div class="progress-box"><div class="progress-fill" style="width:${value}%"></div></div></div></div>`;
+}
+function box(label,value,cls=''){ return `<div class="detail-box ${cls}"><div class="detail-label">${label}</div><div class="detail-value">${escapeHtml(value)}</div></div>`; }
 function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
 function closeDrawerOnBg(e){ if(e.target.id === 'drawer') closeDrawer(); }
 
-function setupFilters(){
-  document.querySelectorAll('.chip[data-filter]').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const group = btn.dataset.filter;
-      const value = btn.dataset.value;
-      state.filters[group] = value;
-      document.querySelectorAll(`.chip[data-filter="${group}"]`).forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      applyFilters();
-    });
-  });
+function setupSearch(){
   document.getElementById('searchInput').addEventListener('input', e => {
     state.search = e.target.value;
     applyFilters();
   });
+  document.addEventListener('keydown', e => {
+    if(e.key === 'Escape') closeDrawer();
+  });
 }
 
 async function init(){
-  setupFilters();
+  setupSearch();
   try{
     const res = await fetch(SHEET_CSV_URL + '&t=' + Date.now(), { cache:'no-store' });
     if(!res.ok) throw new Error('No se pudo leer el CSV publicado.');
@@ -602,14 +648,17 @@ async function init(){
     state.data = data;
     computeRange(data);
     state.filtered = data.slice();
+    setupDynamicFilters();
     applyFilters();
   }catch(err){
     document.getElementById('gantt').innerHTML = `
       <div class="error">
         <strong>No se pudo cargar el Gantt.</strong><br>
         ${escapeHtml(err.message)}<br><br>
-        Verificar que la hoja publicada tenga estas columnas exactas:<br>
-        <code>ID, Modulo, Tarea, Descripcion, Modalidad, Responsable, Estado, Prioridad, Fecha Inicio, Fecha Fin, Dependencia, Observaciones</code>
+        Columnas base requeridas:<br>
+        <code>ID, Modulo, Tarea, Descripcion, Modalidad, Responsable, Estado, Prioridad, Fecha Inicio, Fecha Fin, Dependencia, Observaciones</code><br><br>
+        Columnas recomendadas para la versión final:<br>
+        <code>Tipo, % Avance, Link Jira, Link GitLab, Fecha Ultima Actualizacion</code>
       </div>
     `;
     document.getElementById('lastUpdate').textContent = 'Error';

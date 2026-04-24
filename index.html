@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seller Center — Gantt · Marketplace Sporting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --g:#5ea832;--g2:#4a8a26;--g-dim:rgba(94,168,50,.10);--g-brd:rgba(94,168,50,.25);
+  --k:#0d0f0d;--k2:#131713;--k3:#181d17;--k4:#1d231c;--k5:#222820;
+  --w:#fff;--bdr:rgba(255,255,255,.08);--bdr-l:rgba(255,255,255,.045);
+  --t1:#e8ede4;--t2:#a1b199;--t3:#6b7b65;
+  --danger:#d94040;--warn:#ffb74d;--info:#64b5f6;--teal:#4db6ac;--violet:#ce93d8;
+  --done:#5ea832;--progress:#ffb74d;--planned:#8aa19a;--blocked:#d94040;
+  --shadow:0 8px 28px rgba(0,0,0,.32);
+  --tb:56px;--left:470px;--day:7px;--row:42px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{font-size:15px;scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--k);color:var(--t1);min-height:100vh;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input,select{font-family:'Barlow',sans-serif}
+button{cursor:pointer}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:90;height:var(--tb);display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:rgba(13,15,13,.97);border-bottom:1px solid var(--g-brd);backdrop-filter:blur(16px)}
+.tb-left{display:flex;align-items:center;gap:14px}
+.tb-logo{font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;letter-spacing:.04em;text-transform:uppercase;color:var(--w);white-space:nowrap}
+.tb-logo span{color:var(--g)}
+.tb-sep{width:1px;height:18px;background:var(--bdr)}
+.tb-module{font-size:9.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--t3)}
+.tb-right{display:flex;align-items:center;gap:10px}
+.dot-live{width:7px;height:7px;border-radius:50%;background:var(--g);box-shadow:0 0 0 3px rgba(94,168,50,.18);animation:pulse 2s infinite;display:inline-block;margin-right:6px}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.tb-status{font-size:11px;color:var(--t2);display:flex;align-items:center}
+.badge{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:4px 10px;border-radius:4px;border:1px solid var(--g-brd);color:var(--g);background:var(--g-dim)}
+
+/* MAIN */
+.main{padding:28px 32px 60px;max-width:1500px;margin:0 auto}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;margin-bottom:18px}
+.page-title{font-family:'Barlow Condensed',sans-serif;font-size:31px;font-weight:900;letter-spacing:.02em;text-transform:uppercase;color:var(--w);margin-bottom:6px}
+.page-sub{font-size:13.5px;color:var(--t2);line-height:1.6;max-width:780px}
+.card{background:var(--k3);border:1px solid var(--bdr);border-radius:8px;padding:16px 18px}
+.card h2{font-size:14px;font-weight:700;margin-bottom:8px;color:var(--t1)}
+.card p{font-size:12.5px;line-height:1.55;color:var(--t2);margin-bottom:6px}
+.card small{font-size:11px;color:var(--t3)}
+.src code{color:var(--g);font-family:monospace;font-size:10px;word-break:break-all}
+.stat-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:16px}
+.stat{background:var(--k3);border:1px solid var(--bdr);border-radius:8px;padding:14px;text-align:center}
+.stat-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:var(--g);line-height:1;margin-bottom:3px}
+.stat-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
+
+/* TOOLBAR */
+.toolbar{position:sticky;top:var(--tb);z-index:80;background:rgba(13,15,13,.95);border:1px solid var(--bdr);border-radius:8px;padding:12px;margin-bottom:16px;backdrop-filter:blur(14px);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.filter-group{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.filter-label{font-size:10px;color:var(--t3);font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-right:2px}
+.chip{border:1px solid var(--bdr);background:var(--k3);color:var(--t2);border-radius:4px;padding:6px 10px;font-size:11.5px;font-weight:600;cursor:pointer;transition:.15s}
+.chip:hover{color:var(--t1);background:var(--k4)}
+.chip.active{color:var(--g);background:var(--g-dim);border-color:var(--g-brd)}
+.search{margin-left:auto;min-width:260px;background:var(--k3);border:1px solid var(--bdr);border-radius:5px;padding:7px 10px;color:var(--t1);font-size:12px;outline:none}
+.search:focus{border-color:var(--g)}
+
+/* ALERTS */
+.alert{border-radius:6px;padding:10px 14px;margin-bottom:14px;font-size:12.5px;line-height:1.5}
+.alert-warn{background:rgba(255,183,77,.08);border:1px solid rgba(255,183,77,.25);color:var(--warn)}
+.alert-info{background:rgba(100,181,246,.08);border:1px solid rgba(100,181,246,.2);color:var(--info)}
+.alert-ok{background:var(--g-dim);border:1px solid var(--g-brd);color:var(--g)}
+
+/* GANTT */
+.gantt-wrap{background:var(--k2);border:1px solid var(--bdr);border-radius:8px;overflow:hidden;box-shadow:var(--shadow)}
+.gantt-scroll{overflow:auto;max-height:calc(100vh - 320px)}
+.timeline{min-width:1180px;position:relative}
+.gantt-head{position:sticky;top:0;z-index:50;display:grid;background:var(--k4);border-bottom:1px solid var(--bdr)}
+.left-head{position:sticky;left:0;z-index:60;background:var(--k4);border-right:1px solid var(--bdr);display:grid;grid-template-columns:120px 220px 130px;min-height:54px}
+.hcell{font-size:9.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);padding:11px 10px;display:flex;align-items:center;border-right:1px solid var(--bdr-l)}
+.months{display:grid;min-height:54px}
+.month-cell{border-right:1px solid var(--bdr-l);display:flex;align-items:center;justify-content:center;flex-direction:column}
+.month-name{font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--t2)}
+.month-days{font-size:9px;color:var(--t3);margin-top:2px}
+
+.module-row{display:grid;background:var(--k);border-top:1px solid var(--bdr)}
+.module-left{position:sticky;left:0;z-index:35;background:var(--k);border-right:1px solid var(--bdr);padding:8px 12px;font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g)}
+.module-line{height:30px;background:linear-gradient(90deg,rgba(94,168,50,.08),transparent)}
+.task-row{display:grid;min-height:var(--row);border-top:1px solid var(--bdr-l)}
+.task-left{position:sticky;left:0;z-index:30;background:var(--k3);border-right:1px solid var(--bdr);display:grid;grid-template-columns:120px 220px 130px}
+.task-row:hover .task-left,.task-row:hover .task-area{background:var(--k4)}
+.td{padding:8px 10px;border-right:1px solid var(--bdr-l);display:flex;align-items:center;min-width:0}
+.task-id{font-size:10.5px;font-weight:800;color:var(--g);letter-spacing:.04em}
+.task-name{font-size:12.5px;font-weight:650;color:var(--t1);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-desc{font-size:10.5px;color:var(--t3);line-height:1.25;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-meta{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.task-area{position:relative;background:var(--k3);min-height:var(--row);overflow:hidden}
+.grid-lines{position:absolute;inset:0;pointer-events:none}
+.grid-month{position:absolute;top:0;bottom:0;border-right:1px solid var(--bdr-l)}
+.grid-quarter{position:absolute;top:0;bottom:0;background:rgba(255,255,255,.012)}
+.today-line{position:absolute;top:0;bottom:0;width:2px;background:var(--g);box-shadow:0 0 0 1px rgba(94,168,50,.20);z-index:10}
+.today-line::before{content:'HOY';position:absolute;top:2px;left:4px;font-size:8px;font-weight:800;letter-spacing:.08em;color:var(--g)}
+.bar{position:absolute;top:9px;height:24px;border-radius:5px;border:1px solid transparent;display:flex;align-items:center;padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:10.5px;font-weight:800;letter-spacing:.03em;box-shadow:0 4px 12px rgba(0,0,0,.20);cursor:pointer;transition:.15s}
+.bar:hover{filter:brightness(1.12);transform:translateY(-1px)}
+.bar-completado{background:rgba(94,168,50,.24);border-color:rgba(94,168,50,.42);color:#9be56d}
+.bar-encurso{background:rgba(255,183,77,.22);border-color:rgba(255,183,77,.42);color:var(--warn)}
+.bar-planificado{background:rgba(100,181,246,.16);border-color:rgba(100,181,246,.30);color:var(--info)}
+.bar-noiniciado{background:rgba(255,255,255,.065);border-color:rgba(255,255,255,.12);color:var(--t2)}
+.bar-bloqueado{background:rgba(217,64,64,.22);border-color:rgba(217,64,64,.42);color:#ff8a8a}
+
+.pill{display:inline-flex;align-items:center;justify-content:center;border-radius:20px;padding:3px 7px;font-size:9px;font-weight:800;letter-spacing:.06em;line-height:1;border:1px solid transparent;text-transform:uppercase;white-space:nowrap}
+.mode-manual{background:rgba(100,181,246,.10);border-color:rgba(100,181,246,.22);color:var(--info)}
+.mode-masivo{background:rgba(77,182,172,.10);border-color:rgba(77,182,172,.22);color:var(--teal)}
+.mode-api{background:rgba(206,147,216,.12);border-color:rgba(206,147,216,.26);color:var(--violet)}
+.pr-alta{background:rgba(217,64,64,.10);border-color:rgba(217,64,64,.20);color:#ff8a8a}
+.pr-media{background:rgba(255,183,77,.10);border-color:rgba(255,183,77,.20);color:var(--warn)}
+.pr-baja{background:rgba(255,255,255,.05);border-color:var(--bdr);color:var(--t3)}
+.st-completado{color:var(--g)}.st-encurso{color:var(--warn)}.st-planificado{color:var(--info)}.st-noiniciado{color:var(--t3)}.st-bloqueado{color:var(--danger)}
+
+.legend{display:flex;flex-wrap:wrap;gap:12px;align-items:center;padding:12px 16px;border-top:1px solid var(--bdr);background:var(--k3);font-size:10.5px;color:var(--t3)}
+.legend strong{font-size:10px;color:var(--t2);letter-spacing:.12em;text-transform:uppercase}
+.lbar{width:34px;height:10px;border-radius:3px;border:1px solid transparent}
+.loading,.error{padding:28px;text-align:center;color:var(--t3);font-size:13px}
+.error{text-align:left;color:var(--warn);line-height:1.55}
+
+/* DRAWER */
+.drawer{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;pointer-events:none;transition:.18s}
+.drawer.open{opacity:1;pointer-events:all}
+.drawer-panel{position:absolute;right:0;top:0;bottom:0;width:390px;max-width:calc(100vw - 30px);background:var(--k3);border-left:1px solid var(--bdr);box-shadow:var(--shadow);transform:translateX(100%);transition:.22s;display:flex;flex-direction:column}
+.drawer.open .drawer-panel{transform:none}
+.drawer-head{padding:18px;border-bottom:1px solid var(--bdr);display:flex;justify-content:space-between;gap:12px}
+.drawer-kicker{font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--g);margin-bottom:5px}
+.drawer-title{font-size:18px;font-weight:800;color:var(--t1);line-height:1.25}
+.drawer-close{width:30px;height:30px;border-radius:5px;border:1px solid var(--bdr);background:var(--k4);color:var(--t2)}
+.drawer-close:hover{color:var(--w);border-color:var(--g-brd)}
+.drawer-body{padding:18px;overflow:auto}
+.detail-box{background:var(--k4);border:1px solid var(--bdr);border-radius:6px;padding:12px;margin-bottom:10px}
+.detail-label{font-size:9px;color:var(--t3);font-weight:800;letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
+.detail-value{font-size:12.5px;color:var(--t1);line-height:1.45}
+.drawer-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .main{padding:20px 14px 40px}
+  .hero{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+  .search{margin-left:0;width:100%;min-width:0}
+  .tb-right{display:none}
+  .toolbar{position:relative;top:0}
+  .gantt-scroll{max-height:none}
+}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="tb-left">
+    <div class="tb-logo">Sporting <span>Marketplace</span></div>
+    <div class="tb-sep"></div>
+    <div class="tb-module">Seller Center · Gantt</div>
+  </div>
+  <div class="tb-right">
+    <div class="tb-status"><span class="dot-live"></span>Conectado a Google Sheets</div>
+    <div class="badge" id="lastUpdate">Cargando…</div>
+  </div>
+</header>
+
+<main class="main">
+  <section class="hero">
+    <div>
+      <div class="page-title">Gantt Seller Center</div>
+      <p class="page-sub">
+        Roadmap operativo por tareas, fechas reales y módulos funcionales. La información se consume desde Google Sheets y se organiza por módulo, modalidad, estado, prioridad y responsable.
+      </p>
+    </div>
+    <div class="card">
+      <h2>Modelo de lectura</h2>
+      <p><strong>1 fila = 1 tarea.</strong> Cada tarea tiene fecha de inicio y fin, permitiendo visualizar duración real.</p>
+      <p><strong>API no es estado:</strong> es modalidad de integración. Los estados miden avance.</p>
+      <p class="src"><small>Fuente:</small><br><code id="sourceUrl"></code></p>
+    </div>
+  </section>
+
+  <section class="stat-grid">
+    <div class="stat"><div class="stat-num" id="stTotal">0</div><div class="stat-label">Tareas</div></div>
+    <div class="stat"><div class="stat-num" id="stProgress">0%</div><div class="stat-label">Avance</div></div>
+    <div class="stat"><div class="stat-num" id="stCurrent">0</div><div class="stat-label">En curso</div></div>
+    <div class="stat"><div class="stat-num" id="stBlocked">0</div><div class="stat-label">Bloqueadas</div></div>
+    <div class="stat"><div class="stat-num" id="stModules">0</div><div class="stat-label">Módulos</div></div>
+  </section>
+
+  <div class="alert alert-ok">
+    Estructura optimizada: se eliminó la “capa API transversal”, se separó Stock de Precio y el Gantt ahora usa fechas reales de inicio y fin.
+  </div>
+
+  <section class="toolbar">
+    <div class="filter-group">
+      <span class="filter-label">Estado</span>
+      <button class="chip active" data-filter="estado" data-value="Todos">Todos</button>
+      <button class="chip" data-filter="estado" data-value="No iniciado">No iniciado</button>
+      <button class="chip" data-filter="estado" data-value="Planificado">Planificado</button>
+      <button class="chip" data-filter="estado" data-value="En curso">En curso</button>
+      <button class="chip" data-filter="estado" data-value="Bloqueado">Bloqueado</button>
+      <button class="chip" data-filter="estado" data-value="Completado">Completado</button>
+    </div>
+    <div class="filter-group">
+      <span class="filter-label">Modalidad</span>
+      <button class="chip active" data-filter="modalidad" data-value="Todos">Todas</button>
+      <button class="chip" data-filter="modalidad" data-value="Manual">Manual</button>
+      <button class="chip" data-filter="modalidad" data-value="Masivo">Masivo</button>
+      <button class="chip" data-filter="modalidad" data-value="API">API</button>
+    </div>
+    <input class="search" id="searchInput" placeholder="Buscar tarea, módulo, responsable...">
+  </section>
+
+  <section class="gantt-wrap">
+    <div class="gantt-scroll">
+      <div id="gantt" class="timeline">
+        <div class="loading">Cargando roadmap desde Google Sheets…</div>
+      </div>
+    </div>
+    <div class="legend">
+      <strong>Estados</strong>
+      <span class="lbar bar-noiniciado"></span>No iniciado
+      <span class="lbar bar-planificado"></span>Planificado
+      <span class="lbar bar-encurso"></span>En curso
+      <span class="lbar bar-bloqueado"></span>Bloqueado
+      <span class="lbar bar-completado"></span>Completado
+      <strong style="margin-left:12px">Modalidades</strong>
+      <span class="pill mode-manual">Manual</span>
+      <span class="pill mode-masivo">Masivo</span>
+      <span class="pill mode-api">API</span>
+    </div>
+  </section>
+</main>
+
+<div class="drawer" id="drawer" onclick="closeDrawerOnBg(event)">
+  <div class="drawer-panel">
+    <div class="drawer-head">
+      <div>
+        <div class="drawer-kicker" id="drawerId"></div>
+        <div class="drawer-title" id="drawerTitle"></div>
+        <div class="drawer-tags" id="drawerTags"></div>
+      </div>
+      <button class="drawer-close" onclick="closeDrawer()">✕</button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </div>
+</div>
+
+<script>
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vTwd-qIMhoH1poJpaTZqN-7O5IGAfPDTxslBAX8LCPogTkwheW2vWsq59JkvvYakM8ndCKgUQualQyi/pub?gid=1440698993&single=true&output=csv';
+
+const MODULE_ORDER = [
+  'Articulado','Catalogacion','Stock','Precio','Pedidos','Devoluciones',
+  'Comprobantes','Logistica Directa','Logistica Inversa','Conciliacion'
+];
+
+const state = {
+  data: [],
+  filtered: [],
+  filters: { estado:'Todos', modalidad:'Todos' },
+  search: '',
+  minDate: null,
+  maxDate: null,
+  months: []
+};
+
+document.getElementById('sourceUrl').textContent = SHEET_CSV_URL;
+
+function normalize(str){
+  return String(str || '')
+    .trim()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,' ');
+}
+
+function slug(str){
+  return normalize(str).toLowerCase().replace(/[^a-z0-9]+/g,'');
+}
+
+function parseDate(value){
+  if(!value) return null;
+  const s = String(value).trim();
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s)){
+    const [y,m,d]=s.split('-').map(Number);
+    return new Date(y, m-1, d);
+  }
+  if(/^\d{1,2}\/\d{1,2}\/\d{4}$/.test(s)){
+    const [d,m,y]=s.split('/').map(Number);
+    return new Date(y, m-1, d);
+  }
+  const d = new Date(s);
+  return isNaN(d) ? null : d;
+}
+
+function fmtDate(d){
+  if(!d) return '-';
+  return d.toLocaleDateString('es-AR', {day:'2-digit', month:'2-digit', year:'numeric'});
+}
+
+function daysBetween(a,b){
+  return Math.round((b - a) / 86400000);
+}
+
+function addDays(d,n){
+  const x = new Date(d);
+  x.setDate(x.getDate()+n);
+  return x;
+}
+
+function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
+function endOfMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
+
+function csvParse(text){
+  const rows = [];
+  let row = [], cell = '', q = false;
+  for(let i=0;i<text.length;i++){
+    const c = text[i], n = text[i+1];
+    if(c === '"' && q && n === '"'){ cell += '"'; i++; continue; }
+    if(c === '"'){ q = !q; continue; }
+    if(c === ',' && !q){ row.push(cell); cell=''; continue; }
+    if((c === '\n' || c === '\r') && !q){
+      if(c === '\r' && n === '\n') i++;
+      row.push(cell); cell='';
+      if(row.some(v => String(v).trim() !== '')) rows.push(row);
+      row = [];
+      continue;
+    }
+    cell += c;
+  }
+  row.push(cell);
+  if(row.some(v => String(v).trim() !== '')) rows.push(row);
+  return rows;
+}
+
+function mapRows(rows){
+  if(!rows.length) return [];
+  const headers = rows[0].map(h => slug(h));
+  const idx = (name) => headers.indexOf(slug(name));
+
+  const get = (row, name) => {
+    const i = idx(name);
+    return i >= 0 ? String(row[i] || '').trim() : '';
+  };
+
+  return rows.slice(1).map(row => {
+    const start = parseDate(get(row,'Fecha Inicio'));
+    const end = parseDate(get(row,'Fecha Fin'));
+    return {
+      id:get(row,'ID'),
+      modulo:get(row,'Modulo'),
+      tarea:get(row,'Tarea'),
+      descripcion:get(row,'Descripcion'),
+      modalidad:get(row,'Modalidad'),
+      responsable:get(row,'Responsable'),
+      estado:get(row,'Estado') || 'No iniciado',
+      prioridad:get(row,'Prioridad'),
+      inicio:start,
+      fin:end,
+      dependencia:get(row,'Dependencia'),
+      observaciones:get(row,'Observaciones')
+    };
+  }).filter(x => x.id && x.modulo && x.tarea && x.inicio && x.fin);
+}
+
+function computeRange(data){
+  const starts = data.map(d=>d.inicio).filter(Boolean);
+  const ends = data.map(d=>d.fin).filter(Boolean);
+  if(!starts.length || !ends.length){
+    const now = new Date();
+    state.minDate = new Date(now.getFullYear(), 0, 1);
+    state.maxDate = new Date(now.getFullYear(), 11, 31);
+    return;
+  }
+  let min = new Date(Math.min(...starts));
+  let max = new Date(Math.max(...ends));
+  state.minDate = startOfMonth(min);
+  state.maxDate = endOfMonth(max);
+
+  state.months = [];
+  let cur = new Date(state.minDate);
+  while(cur <= state.maxDate){
+    const s = new Date(cur);
+    const e = endOfMonth(cur);
+    state.months.push({ start:s, end:e, label:s.toLocaleDateString('es-AR',{month:'short',year:'numeric'}).replace('.', '') });
+    cur = new Date(cur.getFullYear(), cur.getMonth()+1, 1);
+  }
+}
+
+function statusClass(status){
+  const s = slug(status);
+  if(s === 'completado') return 'bar-completado';
+  if(s === 'encurso') return 'bar-encurso';
+  if(s === 'bloqueado') return 'bar-bloqueado';
+  if(s === 'planificado') return 'bar-planificado';
+  return 'bar-noiniciado';
+}
+
+function statusTextClass(status){
+  const s = slug(status);
+  if(s === 'completado') return 'st-completado';
+  if(s === 'encurso') return 'st-encurso';
+  if(s === 'bloqueado') return 'st-bloqueado';
+  if(s === 'planificado') return 'st-planificado';
+  return 'st-noiniciado';
+}
+
+function modalityClass(mod){
+  const s = slug(mod);
+  if(s === 'api') return 'mode-api';
+  if(s === 'masivo') return 'mode-masivo';
+  return 'mode-manual';
+}
+
+function priorityClass(p){
+  const s = slug(p);
+  if(s === 'alta') return 'pr-alta';
+  if(s === 'media') return 'pr-media';
+  return 'pr-baja';
+}
+
+function applyFilters(){
+  const q = slug(state.search);
+  state.filtered = state.data.filter(item => {
+    const byEstado = state.filters.estado === 'Todos' || normalize(item.estado) === normalize(state.filters.estado);
+    const byModalidad = state.filters.modalidad === 'Todos' || normalize(item.modalidad) === normalize(state.filters.modalidad);
+    const haystack = slug([item.id,item.modulo,item.tarea,item.descripcion,item.responsable,item.estado,item.modalidad,item.prioridad].join(' '));
+    const bySearch = !q || haystack.includes(q);
+    return byEstado && byModalidad && bySearch;
+  });
+  render();
+}
+
+function updateStats(){
+  const total = state.data.length;
+  const done = state.data.filter(x => slug(x.estado)==='completado').length;
+  const current = state.data.filter(x => slug(x.estado)==='encurso').length;
+  const blocked = state.data.filter(x => slug(x.estado)==='bloqueado').length;
+  const modules = new Set(state.data.map(x=>x.modulo)).size;
+  const pct = total ? Math.round(done/total*100) : 0;
+  document.getElementById('stTotal').textContent = total;
+  document.getElementById('stProgress').textContent = pct + '%';
+  document.getElementById('stCurrent').textContent = current;
+  document.getElementById('stBlocked').textContent = blocked;
+  document.getElementById('stModules').textContent = modules;
+  document.getElementById('lastUpdate').textContent = 'Actualizado';
+}
+
+function render(){
+  updateStats();
+  const gantt = document.getElementById('gantt');
+  if(!state.filtered.length){
+    gantt.innerHTML = '<div class="loading">No hay tareas para los filtros seleccionados.</div>';
+    return;
+  }
+
+  const totalDays = Math.max(1, daysBetween(state.minDate, addDays(state.maxDate,1)));
+  const timelineWidth = totalDays * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+  const monthGrid = state.months.map(m => {
+    const w = (daysBetween(m.start, addDays(m.end,1))) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+    return `<div class="month-cell" style="width:${w}px"><div class="month-name">${m.label}</div><div class="month-days">${daysBetween(m.start, addDays(m.end,1))} días</div></div>`;
+  }).join('');
+
+  let html = `
+    <div class="gantt-head" style="grid-template-columns:var(--left) ${timelineWidth}px">
+      <div class="left-head">
+        <div class="hcell">ID</div>
+        <div class="hcell">Tarea</div>
+        <div class="hcell">Modalidad</div>
+      </div>
+      <div class="months" style="grid-template-columns:${state.months.map(m => (daysBetween(m.start, addDays(m.end,1)) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'))) + 'px').join(' ')}">${monthGrid}</div>
+    </div>
+  `;
+
+  const grouped = groupByModule(state.filtered);
+  grouped.forEach(([module, items]) => {
+    html += `
+      <div class="module-row" style="grid-template-columns:var(--left) ${timelineWidth}px">
+        <div class="module-left">${module}</div>
+        <div class="module-line"></div>
+      </div>
+    `;
+    items.forEach(item => {
+      const left = Math.max(0, daysBetween(state.minDate, item.inicio)) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+      const width = Math.max(8, (daysBetween(item.inicio, addDays(item.fin,1))) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day')));
+      html += `
+        <div class="task-row" style="grid-template-columns:var(--left) ${timelineWidth}px">
+          <div class="task-left">
+            <div class="td"><span class="task-id">${escapeHtml(item.id)}</span></div>
+            <div class="td">
+              <div style="min-width:0">
+                <div class="task-name" title="${escapeHtml(item.tarea)}">${escapeHtml(item.tarea)}</div>
+                <div class="task-desc" title="${escapeHtml(item.descripcion)}">${escapeHtml(item.descripcion)}</div>
+              </div>
+            </div>
+            <div class="td">
+              <div class="task-meta">
+                <span class="pill ${modalityClass(item.modalidad)}">${escapeHtml(item.modalidad)}</span>
+                <span class="pill ${priorityClass(item.prioridad)}">${escapeHtml(item.prioridad)}</span>
+              </div>
+            </div>
+          </div>
+          <div class="task-area">
+            ${renderGrid(timelineWidth)}
+            ${renderToday(totalDays)}
+            <div class="bar ${statusClass(item.estado)}" style="left:${left}px;width:${width}px" onclick='openDrawer(${JSON.stringify(item.id)})' title="${escapeHtml(item.tarea)} · ${fmtDate(item.inicio)} → ${fmtDate(item.fin)}">
+              ${escapeHtml(item.estado)}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+  });
+
+  gantt.style.minWidth = `calc(var(--left) + ${timelineWidth}px)`;
+  gantt.innerHTML = html;
+}
+
+function renderGrid(timelineWidth){
+  let out = '<div class="grid-lines">';
+  state.months.forEach((m,idx) => {
+    const left = daysBetween(state.minDate, m.start) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+    const width = daysBetween(m.start, addDays(m.end,1)) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+    out += `<div class="grid-month" style="left:${left}px;width:${width}px"></div>`;
+    if(idx % 3 === 0) out += `<div class="grid-quarter" style="left:${left}px;width:${width*3}px"></div>`;
+  });
+  out += '</div>';
+  return out;
+}
+
+function renderToday(totalDays){
+  const today = new Date();
+  if(today < state.minDate || today > state.maxDate) return '';
+  const left = daysBetween(state.minDate, today) * parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--day'));
+  return `<div class="today-line" style="left:${left}px"></div>`;
+}
+
+function groupByModule(data){
+  const map = new Map();
+  data.forEach(item => {
+    if(!map.has(item.modulo)) map.set(item.modulo, []);
+    map.get(item.modulo).push(item);
+  });
+  return Array.from(map.entries()).sort((a,b) => {
+    const ai = MODULE_ORDER.indexOf(a[0]);
+    const bi = MODULE_ORDER.indexOf(b[0]);
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi);
+  }).map(([m,items]) => [m, items.sort((a,b)=> a.inicio - b.inicio || a.id.localeCompare(b.id))]);
+}
+
+function escapeHtml(str){
+  return String(str ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+}
+
+function openDrawer(id){
+  const item = state.data.find(x => x.id === id);
+  if(!item) return;
+  document.getElementById('drawerId').textContent = item.id + ' · ' + item.modulo;
+  document.getElementById('drawerTitle').textContent = item.tarea;
+  document.getElementById('drawerTags').innerHTML = `
+    <span class="pill ${modalityClass(item.modalidad)}">${escapeHtml(item.modalidad)}</span>
+    <span class="pill ${priorityClass(item.prioridad)}">${escapeHtml(item.prioridad)}</span>
+    <span class="${statusTextClass(item.estado)}" style="font-size:11px;font-weight:800;text-transform:uppercase">${escapeHtml(item.estado)}</span>
+  `;
+  document.getElementById('drawerBody').innerHTML = `
+    ${box('Descripción', item.descripcion)}
+    ${box('Responsable', item.responsable)}
+    ${box('Fecha inicio', fmtDate(item.inicio))}
+    ${box('Fecha fin', fmtDate(item.fin))}
+    ${box('Duración', (daysBetween(item.inicio, addDays(item.fin,1))) + ' días')}
+    ${box('Dependencia', item.dependencia || 'Sin dependencia')}
+    ${box('Observaciones', item.observaciones || 'Sin observaciones')}
+  `;
+  document.getElementById('drawer').classList.add('open');
+}
+function box(label,value){ return `<div class="detail-box"><div class="detail-label">${label}</div><div class="detail-value">${escapeHtml(value)}</div></div>`; }
+function closeDrawer(){ document.getElementById('drawer').classList.remove('open'); }
+function closeDrawerOnBg(e){ if(e.target.id === 'drawer') closeDrawer(); }
+
+function setupFilters(){
+  document.querySelectorAll('.chip[data-filter]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const group = btn.dataset.filter;
+      const value = btn.dataset.value;
+      state.filters[group] = value;
+      document.querySelectorAll(`.chip[data-filter="${group}"]`).forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyFilters();
+    });
+  });
+  document.getElementById('searchInput').addEventListener('input', e => {
+    state.search = e.target.value;
+    applyFilters();
+  });
+}
+
+async function init(){
+  setupFilters();
+  try{
+    const res = await fetch(SHEET_CSV_URL + '&t=' + Date.now(), { cache:'no-store' });
+    if(!res.ok) throw new Error('No se pudo leer el CSV publicado.');
+    const text = await res.text();
+    const rows = csvParse(text);
+    const data = mapRows(rows);
+    if(!data.length) throw new Error('La hoja no contiene filas válidas. Verificar encabezados y fechas.');
+    state.data = data;
+    computeRange(data);
+    state.filtered = data.slice();
+    applyFilters();
+  }catch(err){
+    document.getElementById('gantt').innerHTML = `
+      <div class="error">
+        <strong>No se pudo cargar el Gantt.</strong><br>
+        ${escapeHtml(err.message)}<br><br>
+        Verificar que la hoja publicada tenga estas columnas exactas:<br>
+        <code>ID, Modulo, Tarea, Descripcion, Modalidad, Responsable, Estado, Prioridad, Fecha Inicio, Fecha Fin, Dependencia, Observaciones</code>
+      </div>
+    `;
+    document.getElementById('lastUpdate').textContent = 'Error';
+  }
+}
+init();
+</script>
+</body>
+</html>

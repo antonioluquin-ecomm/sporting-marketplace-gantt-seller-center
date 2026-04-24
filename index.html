@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seller Center — Gantt Final · Marketplace Sporting</title>
+<title>Seller Center — Gantt Definitivo · Marketplace Sporting</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
 <style>
@@ -46,7 +46,7 @@ a{color:inherit}
 .card p{font-size:12.5px;line-height:1.55;color:var(--t2);margin-bottom:6px}
 .card small{font-size:11px;color:var(--t3)}
 .src code{color:var(--g);font-family:monospace;font-size:10px;word-break:break-all}
-.stat-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:16px}
+.stat-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;margin-bottom:16px}
 .stat{background:var(--k3);border:1px solid var(--bdr);border-radius:8px;padding:14px;text-align:center}
 .stat-num{font-family:'Barlow Condensed',sans-serif;font-size:26px;font-weight:900;color:var(--g);line-height:1;margin-bottom:3px}
 .stat-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t3)}
@@ -200,10 +200,11 @@ a{color:inherit}
     <div class="stat"><div class="stat-num" id="stBlocked">0</div><div class="stat-label">Bloqueadas</div></div>
     <div class="stat"><div class="stat-num" id="stModules">0</div><div class="stat-label">Módulos</div></div>
     <div class="stat"><div class="stat-num" id="stNotes">0</div><div class="stat-label">Con obs.</div></div>
+    <div class="stat"><div class="stat-num" id="stMilestones">0</div><div class="stat-label">Hitos</div></div>
   </section>
 
   <div class="alert alert-ok">
-    Estructura recomendada: agregar al Sheet las columnas <strong>Tipo, % Avance, Link Jira, Link GitLab y Fecha Ultima Actualizacion</strong>. Si todavía no existen, el HTML funciona igual y deja esos campos vacíos.
+    Estructura definitiva: la hoja debe incluir <strong>Tipo, % Avance, Hito, Link Jira, Link GitLab y Fecha Ultima Actualizacion</strong>. El HTML funciona aunque esos campos estén vacíos, pero no conviene cambiar los nombres de columnas.
   </div>
 
   <section class="toolbar">
@@ -214,6 +215,7 @@ a{color:inherit}
       <div class="select-wrap"><span class="filter-label">Modalidad</span><select class="filter-select" id="fModalidad"></select></div>
       <div class="select-wrap"><span class="filter-label">Prioridad</span><select class="filter-select" id="fPrioridad"></select></div>
       <div class="select-wrap"><span class="filter-label">Tipo</span><select class="filter-select" id="fTipo"></select></div>
+      <div class="select-wrap"><span class="filter-label">Hito</span><select class="filter-select" id="fHito"></select></div>
     </div>
     <div style="display:flex;gap:8px">
       <input class="search" id="searchInput" placeholder="Buscar tarea, módulo, responsable, observación...">
@@ -237,6 +239,7 @@ a{color:inherit}
       <strong style="margin-left:12px">Indicadores</strong>
       <span class="note-mark">!</span> Con observación
       <span class="link-mark">↗</span> Con link Jira/GitLab
+      <span class="milestone-mark">★</span> Hito
     </div>
   </section>
 </main>
@@ -267,7 +270,7 @@ const state = {
   data: [],
   filtered: [],
   filters: {
-    estado:'Todos', modulo:'Todos', responsable:'Todos', modalidad:'Todos', prioridad:'Todos', tipo:'Todos'
+    estado:'Todos', modulo:'Todos', responsable:'Todos', modalidad:'Todos', prioridad:'Todos', tipo:'Todos', hito:'Todos'
   },
   search: '',
   minDate: null,
@@ -366,7 +369,8 @@ function mapRows(rows){
       avance: avanceRaw === '' ? fallbackAvance : num(avanceRaw),
       linkJira:get(row,'Link Jira'),
       linkGitlab:get(row,'Link GitLab'),
-      fechaUpdate:parseDate(get(row,'Fecha Ultima Actualizacion')) || null
+      fechaUpdate:parseDate(get(row,'Fecha Ultima Actualizacion')) || null,
+      hito: normalize(get(row,'Hito') || 'No')
     };
   }).filter(x => x.id && x.modulo && x.tarea && x.inicio && x.fin);
 }
@@ -436,8 +440,9 @@ function setupDynamicFilters(){
   fillSelect('fModalidad', state.data.map(x=>x.modalidad));
   fillSelect('fPrioridad', state.data.map(x=>x.prioridad));
   fillSelect('fTipo', state.data.map(x=>x.tipo));
+  fillSelect('fHito', state.data.map(x=>x.hito));
   const map = {
-    fEstado:'estado', fModulo:'modulo', fResponsable:'responsable', fModalidad:'modalidad', fPrioridad:'prioridad', fTipo:'tipo'
+    fEstado:'estado', fModulo:'modulo', fResponsable:'responsable', fModalidad:'modalidad', fPrioridad:'prioridad', fTipo:'tipo', fHito:'hito'
   };
   Object.entries(map).forEach(([id,key]) => {
     document.getElementById(id).addEventListener('change', e => {
@@ -450,10 +455,10 @@ function setupDynamicFilters(){
 function applyFilters(){
   const q = slug(state.search);
   state.filtered = state.data.filter(item => {
-    const keys = ['estado','modulo','responsable','modalidad','prioridad','tipo'];
+    const keys = ['estado','modulo','responsable','modalidad','prioridad','tipo','hito'];
     const byFilters = keys.every(k => state.filters[k] === 'Todos' || normalize(item[k]) === normalize(state.filters[k]));
     const haystack = slug([
-      item.id,item.modulo,item.tarea,item.descripcion,item.responsable,item.estado,item.modalidad,item.prioridad,item.tipo,item.observaciones,item.dependencia
+      item.id,item.modulo,item.tarea,item.descripcion,item.responsable,item.estado,item.modalidad,item.prioridad,item.tipo,item.hito,item.observaciones,item.dependencia
     ].join(' '));
     return byFilters && (!q || haystack.includes(q));
   });
@@ -461,7 +466,7 @@ function applyFilters(){
 }
 function resetFilters(){
   Object.keys(state.filters).forEach(k => state.filters[k]='Todos');
-  ['fEstado','fModulo','fResponsable','fModalidad','fPrioridad','fTipo'].forEach(id => document.getElementById(id).value = 'Todos');
+  ['fEstado','fModulo','fResponsable','fModalidad','fPrioridad','fTipo','fHito'].forEach(id => document.getElementById(id).value = 'Todos');
   document.getElementById('searchInput').value = '';
   state.search = '';
   applyFilters();
@@ -474,12 +479,14 @@ function updateStats(){
   const blocked = state.data.filter(x => slug(x.estado)==='bloqueado').length;
   const modules = new Set(state.data.map(x=>x.modulo)).size;
   const notes = state.data.filter(x => !!x.observaciones).length;
+  const milestones = state.data.filter(x => slug(x.hito)==='si').length;
   document.getElementById('stTotal').textContent = total;
   document.getElementById('stProgress').textContent = avg + '%';
   document.getElementById('stCurrent').textContent = current;
   document.getElementById('stBlocked').textContent = blocked;
   document.getElementById('stModules').textContent = modules;
   document.getElementById('stNotes').textContent = notes;
+  document.getElementById('stMilestones').textContent = milestones;
   document.getElementById('lastUpdate').textContent = 'Actualizado';
 }
 
@@ -524,7 +531,8 @@ function render(){
       const width = Math.max(12, (daysBetween(item.inicio, addDays(item.fin,1))) * dayW);
       const hasObs = !!item.observaciones;
       const hasLink = isUrl(item.linkJira) || isUrl(item.linkGitlab);
-      const indicators = `${hasObs ? '<span class="note-mark">!</span>' : ''}${hasLink ? '<span class="link-mark">↗</span>' : ''}`;
+      const isHito = slug(item.hito)==='si';
+      const indicators = `${hasObs ? '<span class="note-mark">!</span>' : ''}${hasLink ? '<span class="link-mark">↗</span>' : ''}${isHito ? '<span class="milestone-mark">★</span>' : ''}`;
       html += `
         <div class="task-row" style="grid-template-columns:var(--left) ${timelineWidth}px">
           <div class="task-left">
@@ -598,6 +606,7 @@ function openDrawer(id){
     <span class="pill ${modalityClass(item.modalidad)}">${escapeHtml(item.modalidad)}</span>
     <span class="pill ${priorityClass(item.prioridad)}">${escapeHtml(item.prioridad)}</span>
     <span class="pill type">${escapeHtml(item.tipo)}</span>
+    ${slug(item.hito)==='si' ? '<span class="milestone-mark">★</span>' : ''}
     <span class="${statusTextClass(item.estado)}" style="font-size:11px;font-weight:800;text-transform:uppercase">${escapeHtml(item.estado)}</span>
   `;
   const jiraEnabled = isUrl(item.linkJira);
@@ -614,6 +623,7 @@ function openDrawer(id){
     ${box('Fecha fin', fmtDate(item.fin))}
     ${box('Duración', (daysBetween(item.inicio, addDays(item.fin,1))) + ' días')}
     ${box('Dependencia', item.dependencia || 'Sin dependencia')}
+    ${box('Hito', slug(item.hito)==='si' ? 'Sí' : 'No')}
     ${box('Última actualización', item.fechaUpdate ? fmtDate(item.fechaUpdate) : 'Sin fecha informada')}
     ${box('Observaciones', item.observaciones || 'Sin observaciones', 'obs')}
   `;
@@ -658,7 +668,7 @@ async function init(){
         Columnas base requeridas:<br>
         <code>ID, Modulo, Tarea, Descripcion, Modalidad, Responsable, Estado, Prioridad, Fecha Inicio, Fecha Fin, Dependencia, Observaciones</code><br><br>
         Columnas recomendadas para la versión final:<br>
-        <code>Tipo, % Avance, Link Jira, Link GitLab, Fecha Ultima Actualizacion</code>
+        <code>Tipo, % Avance, Hito, Link Jira, Link GitLab, Fecha Ultima Actualizacion</code>
       </div>
     `;
     document.getElementById('lastUpdate').textContent = 'Error';
